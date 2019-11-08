@@ -63,16 +63,6 @@ RUN yum -y install unzip \
     && unzip sqlcl-17.4.0.354.2224-no-jre.zip \
     && rm /u01/oracle/sqlcl-17.4.0.354.2224-no-jre.zip
 
-# install necessary tools for molecule execution
-RUN yum -y install python2-pip \
-    && pip install --upgrade setuptools \
-    && yum install -y gcc \
-    && yum install -y python-devel \
-    && pip install ansible \
-    && pip install docker \
-    && pip install docker-py \
-    && pip install molecule[docker]
-
 USER root 
 RUN chmod +xr /u01/oracle/wlserver/samples/server/*.sh
 
