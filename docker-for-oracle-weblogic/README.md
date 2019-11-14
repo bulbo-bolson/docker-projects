@@ -16,7 +16,7 @@ $ ./build.sh
 ```
 - Re-tag the image to version
 ```
-$ docker tag 1221-oradb-medrec:latest 1221-oradb-medrec:1.0
+$ docker tag 12213-oradb-medrec:latest 12213-oradb-medrec:1.0
 ```
 - Arrancar servicio
 ```

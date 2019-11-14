@@ -73,7 +73,6 @@ RUN yum -y install python2-pip \
     && pip install docker-py \
     && pip install molecule[docker]
 
-USER root 
 RUN chmod +xr /u01/oracle/wlserver/samples/server/*.sh
 
 WORKDIR $ORACLE_HOME/wlserver/samples/server

@@ -2,15 +2,16 @@ version: '3.2'
 
 services:
   wls:
-    image: 1221-oradb-medrec:1.0
+    image: 12213-oradb-medrec:1.0
     ports:
       - 7011:7011
     depends_on:
-       - orcldb
+      - orcldb
     deploy:
       restart_policy:
         condition: on-failure
-
+    volumes:
+      - "/home/curro/Insync/cuentadelcurro3@gmail.com/Google Drive/CONTENIDO/AUTOMATIZACION/alm:/src:ro"
   orcldb:
     image: store/oracle/database-enterprise:12.2.0.1
     ports:
@@ -21,6 +22,5 @@ services:
         condition: on-failure
     volumes:
       - db-oracle:/ORCL
-
 volumes:
   db-oracle:

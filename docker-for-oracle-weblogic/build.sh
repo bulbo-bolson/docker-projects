@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t 1221-oradb-medrec .
+docker build -t 12213-oradb-medrec .
