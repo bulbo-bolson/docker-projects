@@ -22,3 +22,9 @@ $ docker tag 12213-oradb-medrec:latest 12213-oradb-medrec:1.0
 ```
 docker-compose up -d
 ```
+
+- Consola weblogic
+```
+http://localhost:7011/console
+weblogic / welcome1
+```
