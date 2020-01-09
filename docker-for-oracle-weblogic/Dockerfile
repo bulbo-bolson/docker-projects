@@ -79,4 +79,8 @@ WORKDIR $ORACLE_HOME/wlserver/samples/server
 
 EXPOSE 7011
 
+# como en batera
+RUN mkdir /oracle \
+    && chown oracle:oracle /oracle
+
 CMD ["startSample.sh"]
