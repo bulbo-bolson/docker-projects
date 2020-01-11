@@ -73,14 +73,14 @@ RUN yum -y install python2-pip \
     && pip install docker \
     && pip install docker-py
 
+# directorios como en batera
+RUN mkdir /oracle \
+    && chown oracle:oracle /oracle
+
 RUN chmod +xr /u01/oracle/wlserver/samples/server/*.sh
 
 WORKDIR $ORACLE_HOME/wlserver/samples/server
 
 EXPOSE 7011
-
-# como en batera
-RUN mkdir /oracle \
-    && chown oracle:oracle /oracle
 
 CMD ["startSample.sh"]
