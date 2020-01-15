@@ -38,6 +38,8 @@ ENV FMW_PKG="fmw_12.2.1.3.0_wls_supplemental_quick_Disk1_1of1.zip" \
     FMW_JAR="fmw_12.2.1.3.0_wls_supplemental_quick.jar" \
     MW_HOME="$ORACLE_HOME" \ 
     PATH="$ORACLE_HOME/wlserver/server/bin:$ORACLE_HOME/wlserver/../oracle_common/modules/org.apache.ant_1.9.2/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$ORACLE_HOME/oracle_common/common/bin:$ORACLE_HOME/wlserver/common/bin:$ORACLE_HOME/user_projects/domains/medrec/bin:$ORACLE_HOME/wlserver/samples/server/medrec/:$ORACLE_HOME/wlserver/samples/server/:$ORACLE_HOME/wlserver/../oracle_common/modules/org.apache.maven_3.2.5/bin"
+ENV WEBLOGIC_OS_USER="oracle"
+ENV WEBLOGIC_OS_GROUP="oracle"
 
 # Copy supplemental package and scripts
 # --------------------------------
@@ -64,6 +66,11 @@ RUN yum -y install unzip \
     && unzip sqlcl-19.4.0.354.0937.zip \
     && rm /u01/oracle/sqlcl-19.4.0.354.0937.zip
 
+# basic sysadmin utilites
+RUN yum -y install \
+    net-tools \
+    procps-ng
+
 # install necessary tools for molecule execution
 RUN yum -y install python2-pip \
     && pip install --upgrade setuptools \
@@ -75,7 +82,16 @@ RUN yum -y install python2-pip \
 
 # directorios como en batera
 RUN mkdir /oracle \
-    && chown oracle:oracle /oracle
+    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /oracle \
+    && mkdir /aplic \
+    && mkdir /datos \
+    && mkdir /config \
+    && mkdir /config/medrec \
+    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec \
+    && mkdir /aplic/alm-dists
+
+# copiamos el distribuible
+COPY resources/*.zip /aplic/alm-dists/
 
 RUN chmod +xr /u01/oracle/wlserver/samples/server/*.sh
 
