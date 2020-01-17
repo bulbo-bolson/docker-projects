@@ -87,8 +87,13 @@ RUN mkdir /oracle \
     && mkdir /datos \
     && mkdir /config \
     && mkdir /config/medrec \
-    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec \
-    && mkdir /aplic/alm-dists
+    && mkdir /aplic/alm-dists \
+    && mkdir /logs \
+    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec /aplic/alm-dists /logs
+
+# por comodidad
+RUN echo 'set -o vi' >> /root/.bashrc \
+    && echo "alias ll='ls -l'" >> /root/.bashrc
 
 # copiamos el distribuible
 COPY resources/*.zip /aplic/alm-dists/
