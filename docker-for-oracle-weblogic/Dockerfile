@@ -71,7 +71,7 @@ RUN yum -y install \
     net-tools \
     procps-ng
 
-# install necessary tools for molecule execution
+# herramientas para ejecutar tests manualmente dentro del contenedor
 RUN yum -y install python2-pip \
     && pip install --upgrade setuptools \
     && yum install -y gcc \
@@ -91,9 +91,18 @@ RUN mkdir /oracle \
     && mkdir /logs \
     && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec /aplic/alm-dists /logs
 
-# por comodidad
+# por comodidad en sesiones interactivas
 RUN echo 'set -o vi' >> /root/.bashrc \
     && echo "alias ll='ls -l'" >> /root/.bashrc
+
+# necesario para correr los tests
+RUN yum install python3 \
+    && pip3 install virtualenv \
+    && cd / \
+    && virtualenv --python=python3.6 venv \
+    && source /venv/bin/activate \
+    && pip3 install testinfra \
+    && pip3 install pytest-ansible-playbook
 
 # copiamos el distribuible
 COPY resources/*.zip /aplic/alm-dists/
