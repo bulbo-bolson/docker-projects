@@ -98,7 +98,8 @@ RUN yum install python3 \
     && virtualenv --python=python3.6 venv \
     && source /venv/bin/activate \
     && pip3 install testinfra \
-    && pip3 install pytest-ansible-playbook
+    && pip3 install pytest-ansible-playbook \
+    && pip3 install pyyaml
 
 # por comodidad en sesiones interactivas
 RUN echo 'set -o vi' >> /root/.bashrc \
