@@ -91,10 +91,6 @@ RUN mkdir /oracle \
     && mkdir /logs \
     && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec /aplic/alm-dists /logs
 
-# por comodidad en sesiones interactivas
-RUN echo 'set -o vi' >> /root/.bashrc \
-    && echo "alias ll='ls -l'" >> /root/.bashrc
-
 # necesario para correr los tests
 RUN yum install python3 \
     && pip3 install virtualenv \
@@ -103,6 +99,12 @@ RUN yum install python3 \
     && source /venv/bin/activate \
     && pip3 install testinfra \
     && pip3 install pytest-ansible-playbook
+
+# por comodidad en sesiones interactivas
+RUN echo 'set -o vi' >> /root/.bashrc \
+    && echo "alias ll='ls -l'" >> /root/.bashrc \
+    && echo 'source /venv/bin/activat' >> /root/.bashrc \
+    && cd /src/wl
 
 # copiamos el distribuible
 COPY resources/*.zip /aplic/alm-dists/
