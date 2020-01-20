@@ -92,7 +92,7 @@ RUN mkdir /oracle \
     && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec /aplic/alm-dists /logs
 
 # necesario para correr los tests
-RUN yum install python3 \
+RUN yum -y install python3 \
     && pip3 install virtualenv \
     && cd / \
     && virtualenv --python=python3.6 venv \
@@ -104,8 +104,7 @@ RUN yum install python3 \
 # por comodidad en sesiones interactivas
 RUN echo 'set -o vi' >> /root/.bashrc \
     && echo "alias ll='ls -l'" >> /root/.bashrc \
-    && echo 'source /venv/bin/activat' >> /root/.bashrc \
-    && cd /src/wl
+    && echo 'source /venv/bin/activate' >> /root/.bashrc
 
 # copiamos el distribuible
 COPY resources/*.zip /aplic/alm-dists/
