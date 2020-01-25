@@ -40,6 +40,7 @@ ENV FMW_PKG="fmw_12.2.1.3.0_wls_supplemental_quick_Disk1_1of1.zip" \
     PATH="$ORACLE_HOME/wlserver/server/bin:$ORACLE_HOME/wlserver/../oracle_common/modules/org.apache.ant_1.9.2/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$ORACLE_HOME/oracle_common/common/bin:$ORACLE_HOME/wlserver/common/bin:$ORACLE_HOME/user_projects/domains/medrec/bin:$ORACLE_HOME/wlserver/samples/server/medrec/:$ORACLE_HOME/wlserver/samples/server/:$ORACLE_HOME/wlserver/../oracle_common/modules/org.apache.maven_3.2.5/bin"
 ENV WEBLOGIC_OS_USER="oracle"
 ENV WEBLOGIC_OS_GROUP="oracle"
+ENV ANSIBLE_VERSION=2.5.2
 
 # Copy supplemental package and scripts
 # --------------------------------
@@ -69,16 +70,16 @@ RUN yum -y install unzip \
 # basic sysadmin utilites
 RUN yum -y install \
     net-tools \
-    procps-ng
+    procps-ng \
+    logrotate
 
 # herramientas para ejecutar tests manualmente dentro del contenedor
-RUN yum -y install python2-pip \
+RUN yum -y install oracle-epel-release-el7
+RUN yum install -y python2-pip \
     && pip install --upgrade setuptools \
     && yum install -y gcc \
     && yum install -y python-devel \
-    && pip install ansible \
-    && pip install docker \
-    && pip install docker-py
+    && pip install ansible==${ANSIBLE_VERSION}
 
 # directorios como en batera
 RUN mkdir /oracle \
@@ -104,7 +105,8 @@ RUN yum -y install python3 \
 # por comodidad en sesiones interactivas
 RUN echo 'set -o vi' >> /root/.bashrc \
     && echo "alias ll='ls -l'" >> /root/.bashrc \
-    && echo 'source /venv/bin/activate' >> /root/.bashrc
+    && echo 'source /venv/bin/activate' >> /root/.bashrc \
+    yum -y install vi
 
 # copiamos el distribuible
 COPY resources/*.zip /aplic/alm-dists/
