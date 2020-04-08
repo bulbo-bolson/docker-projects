@@ -55,10 +55,66 @@ RUN chmod +xr /u01/oracle/startSample.sh
 # Installation of Supplemental Quick Installer 
 # --------------------------------------------
 USER oracle
-RUN cd /u01 && $JAVA_HOME/bin/jar xf /u01/$FMW_PKG && cd - ; \
-    $JAVA_HOME/bin/java -jar /u01/$FMW_JAR  ORACLE_HOME=$ORACLE_HOME ; \
-    echo $USER ; \
-    mv /u01/oracle/startSample.sh /u01/oracle/wlserver/samples/server/ ; \
-    rm /u01/$FMW_PKG /u01/$FMW_JAR ; \
-    tail -f /dev/null
+RUN cd /u01 && $JAVA_HOME/bin/jar xf /u01/$FMW_PKG && cd - && \
+    $JAVA_HOME/bin/java -jar /u01/$FMW_JAR  ORACLE_HOME=$ORACLE_HOME && \
+    echo $USER && \
+    mv /u01/oracle/startSample.sh /u01/oracle/wlserver/samples/server/  && \
+    rm /u01/$FMW_PKG /u01/$FMW_JAR
 
+USER root
+RUN yum -y install unzip \
+    && cd /u01/oracle/ \
+    && unzip sqlcl-19.4.0.354.0937.zip \
+    && rm /u01/oracle/sqlcl-19.4.0.354.0937.zip
+
+# basic sysadmin utilites
+RUN yum -y install \
+    net-tools \
+    procps-ng \
+    logrotate
+
+# herramientas para ejecutar tests manualmente dentro del contenedor
+RUN yum -y install oracle-epel-release-el7
+RUN yum install -y python2-pip \
+    && pip install --upgrade setuptools \
+    && yum install -y gcc \
+    && yum install -y python-devel \
+    && pip install ansible==${ANSIBLE_VERSION}
+
+# directorios como en batera
+RUN mkdir /oracle \
+    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /oracle \
+    && mkdir /aplic \
+    && mkdir /datos \
+    && mkdir /config \
+    && mkdir /config/medrec \
+    && mkdir /aplic/alm-dists \
+    && mkdir /logs \
+    && chown ${WEBLOGIC_OS_USER}:${WEBLOGIC_OS_GROUP} /aplic /datos /config /config/medrec /aplic/alm-dists /logs
+
+# necesario para correr los tests
+RUN yum -y install python3 \
+    && pip3 install virtualenv \
+    && cd / \
+    && virtualenv --python=python3.6 venv \
+    && source /venv/bin/activate \
+    && pip3 install testinfra \
+    && pip3 install pytest-ansible-playbook \
+    && pip3 install pyyaml
+
+# por comodidad en sesiones interactivas
+RUN echo 'set -o vi' >> /root/.bashrc \
+    && echo "alias ll='ls -l'" >> /root/.bashrc \
+    && echo 'source /venv/bin/activate' >> /root/.bashrc \
+    yum -y install vi
+
+# copiamos el distribuible
+COPY resources/*.zip /aplic/alm-dists/
+
+RUN chmod +xr /u01/oracle/wlserver/samples/server/*.sh
+
+WORKDIR $ORACLE_HOME/wlserver/samples/server
+
+EXPOSE 7011
+
+CMD ["startSample.sh"]
