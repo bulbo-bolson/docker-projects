@@ -2,3 +2,6 @@
 - build image: `docker build -t custom_jenkins .`
 - start service: `docker-compose up -d`
 - user / pass: admin / admin
+
+### remote-host centos
+generate key par: `cd centos7; ssh-keygen -m pem -f remote-key`
