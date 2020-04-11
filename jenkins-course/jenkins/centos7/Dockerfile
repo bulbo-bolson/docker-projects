@@ -15,4 +15,12 @@ RUN chown remote_user:remote_user -R /home/remote_user && \
 # fix ssh server daemon error in container
 RUN /usr/sbin/sshd-keygen > /dev/null 2>&1 
 
+RUN yum -y install mysql
+
+ENV LD_LIBRARY_PATH /opt/rh/rh-python35/root/usr/lib64:/opt/rh/rh-nodejs10/root/usr/lib64:/opt/rh/httpd24/root/usr/lib64
+RUN yum -y install epel-release && \
+    yum -y install python-pip && \
+    pip install --upgrade pip && \
+    pip install awscli
+
 CMD /usr/sbin/sshd -D
