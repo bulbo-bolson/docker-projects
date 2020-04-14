@@ -24,6 +24,7 @@ EXPOSE 80 443
 
 VOLUME /var/www/html /var/log/nginx /var/log/php-fpm /var/lib/php-fpm
 
+RUN chown -R remote_user:remote_user /var/www/html
 RUN setfacl -R -m u:remote_user:rwx /var/www/html
 
 COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
