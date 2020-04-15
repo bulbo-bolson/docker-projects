@@ -1,38 +1,5 @@
-# LICENSE UPL 1.0
-#
-# Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
-#
-# ORACLE DOCKERFILES PROJECT
-# --------------------------
-# This Dockerfile extends the Oracle WebLogic image by installing the Supplemental package of WebLogic which 
-# includes extra samples of Java EE, Coherence applications, and Multitenant domains. 
-#
-# REQUIRED FILES TO BUILD THIS IMAGE
-# ----------------------------------
-# (1) fmw_12.2.1.2.0_wls_supplemental_quick_Disk1_1of1.zip
-#     Download the Developer Quick installer from http://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-for-dev-1703574.html 
-#
-# (2) sqlcl-17.4.0.354.2224-no-jre.zip
-#     Download command-line tool for connecting to the Oracle Database from http://www.oracle.com/technetwork/developer-tools/sqlcl/downloads/index.html
-#
-# HOW TO BUILD THIS IMAGE
-# -----------------------
-# Put all downloaded files in the same directory as this Dockerfile
-# Run: 
-#      $ sudo docker-compose up -d 
-#
-
-# Pull base image
-# ---------------
-#FROM oracle/weblogic:12.2.1.2-developer
-# FROM store/oracle/weblogic:12.2.1.2
 FROM store/oracle/weblogic:12.2.1.3
 
-# Maintainer
-# ----------
-#MAINTAINER Monica Riccelli <monica.riccelli@oracle.com>
-
-# Environment variables required for this build (do NOT change)
 # -------------------------------------------------------------
 ENV FMW_PKG="fmw_12.2.1.3.0_wls_supplemental_quick_Disk1_1of1.zip" \
     FMW_JAR="fmw_12.2.1.3.0_wls_supplemental_quick.jar" \
@@ -48,7 +15,6 @@ COPY $FMW_PKG /u01/
 USER root
 COPY container-scripts/*  /u01/oracle/
 COPY demo_oracle.ddl  /u01/oracle/
-# COPY sqlcl-17.4.0.354.2224-no-jre.zip  /u01/oracle/
 COPY sqlcl-19.4.0.354.0937.zip  /u01/oracle/
 RUN chmod +xr /u01/oracle/startSample.sh 
 
