@@ -14,6 +14,8 @@
   - Añadir conexión gitlab
     - Manage Jenkins => Configure System => Gitlab Connections
       - Pegamos el contenido de la credencial GitlabAPIToken
+  - Desactivar tener que aprobar cada job dsl
+    - Manage Jenkins => Configure Global Security => Uncheck Enable script security for job DSL scripts
 
 ## Per project
 - Gitlab
