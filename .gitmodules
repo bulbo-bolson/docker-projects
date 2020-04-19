@@ -1,0 +1,3 @@
+[submodule "jenkins-course/jenkins/simple-java-maven-app"]
+	path = jenkins-course/jenkins/simple-java-maven-app
+	url = https://github.com/bulbo-bolson/simple-java-maven-app.git
