@@ -32,6 +32,16 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+      <!-- FIX JENKINS Error: Could not find or load main class org.apache.maven.surefire.booter.ForkedBooter -->
+      <!-- https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class/53016532 -->
+      <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
