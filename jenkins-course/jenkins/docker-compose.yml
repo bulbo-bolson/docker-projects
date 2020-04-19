@@ -25,6 +25,15 @@ services:
       - $PWD/aws-s3.sh:/tmp/aws-s3.sh
     networks:
       - net
+  java_app:
+    container_name: java-app
+    image: remote-with-docker
+    build:
+      context: remote-with-docker
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock 
   db_host:
     container_name: db
     image: mysql:5.7
