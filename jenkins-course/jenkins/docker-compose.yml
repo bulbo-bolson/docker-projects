@@ -9,6 +9,11 @@ services:
       - "8080:8080"
     volumes:
       - $PWD/jenkins_home:/var/jenkins_home
+      # para poder correr docker en el contenedor que tiene docker instalado
+      # asi no hace falta iniciar el demonio docker en el contenedor
+      # se mapea la info del host en ese socket
+      # y ambos ven los mismos contenedores si hacemos docker ps
+      - /var/run/docker.sock:/var/run/docker.sock 
     networks:
       - net
   remote_host:
