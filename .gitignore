@@ -3,3 +3,4 @@ fmw_*.zip
 jenkins_home/
 db_data/
 secrets/
+volumes/
