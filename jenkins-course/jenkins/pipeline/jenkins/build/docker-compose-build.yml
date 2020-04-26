@@ -5,3 +5,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-Java
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
